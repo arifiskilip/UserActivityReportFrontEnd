@@ -1,0 +1,328 @@
+<app-blank pageName="Aktivite Rapor Ekranı">
+  <section class="content">
+    <!-- Takvim -->
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <i class="fas fa-calendar-alt mr-1"></i> Takvim
+            </h3>
+            <div class="card-tools">
+              <button
+                type="button"
+                class="btn btn-tool"
+                data-card-widget="collapse"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+              <button
+                type="button"
+                class="btn btn-tool"
+                data-card-widget="remove"
+              >
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="container mt-4">
+              <div class="row mb-3">
+                <div class="col-md-4">
+                  <label for="activityType" class="form-label"
+                    >Aktivite Türü:</label
+                  >
+                  <select
+                    id="activityType"
+                    class="form-select"
+                    [(ngModel)]="selectedActivityTypeId"
+                  >
+                  <option value="">Lütfen seçim yapınız</option>
+                    <option *ngFor="let type of activityTypes" [value]="type.id">
+                      {{ type.name }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="col-md-2">
+                  <label for="startDate" class="form-label">Başlangıç Tarihi:</label>
+                  <input
+                    type="date"
+                    id="startDate"
+                    class="form-control"
+                    [(ngModel)]="startDate"
+                  />
+                </div>
+
+                <div class="col-md-2">
+                  <label for="endDate" class="form-label">Bitiş Tarihi:</label>
+                  <input
+                    type="date"
+                    id="endDate"
+                    class="form-control"
+                    [(ngModel)]="endDate"
+                  />
+                </div>
+
+                <div class="col-md-2 d-flex align-items-end">
+                  <button
+                    class="btn btn-primary w-100"
+                    (click)="filterEvents()"
+                  >
+                    <i class="fa fa-filter"></i> Filtrele
+                  </button>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                  <button
+                    class="btn btn-danger w-100"
+                    (click)="clearFilter()"
+                  >
+                    <i class="fa fa-times"></i> Temizle
+                  </button>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                  <button
+                    class="btn btn-success w-100"
+                    (click)="dowloandPdf()"
+                  >
+                    <i class="fa fa-times"></i> PDF
+                  </button>
+                </div>
+              </div>
+            </div>
+            <full-calendar [options]="calendarOptions"></full-calendar>
+            <button
+              class="btn btn-primary mt-3"
+              data-toggle="modal"
+              data-target="#activityReportModal"
+            >
+              Ekle
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="activityReportModal"
+      tabindex="-1"
+      aria-labelledby="activityReportModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="activityReportModalLabel">
+              <i class="fas fa-edit"></i> Aktivite Ekle
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+            <span aria-hidden="true">&times;</span>
+          </button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="activityReportAddForm">
+              <div class="mb-3">
+                <label for="activityTypeId" class="form-label"
+                  >Aktivite Türü</label
+                >
+                <select
+                id="activityType"
+                class="form-select"
+                formControlName="activityTypeId"
+              >
+              <option value="">Lütfen seçim yapınız</option>
+                <option *ngFor="let type of activityTypes" [value]="type.id">
+                  {{ type.name }}
+                </option>
+              </select>
+                <div
+                  *ngIf="
+                    activityReportAddForm.get('activityTypeId').invalid &&
+                    activityReportAddForm.get('activityTypeId').touched
+                  "
+                  class="text-danger"
+                >
+                  Aktivite alanı zorunludur.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="description" class="form-label">Açıklama</label>
+                <textarea
+                  id="description"
+                  class="form-control"
+                  rows="3"
+                  formControlName="description"
+                ></textarea>
+                <div
+                  *ngIf="
+                    activityReportAddForm.get('description').invalid &&
+                    activityReportAddForm.get('description').touched
+                  "
+                  class="text-danger"
+                >
+                  Açıklama alanı en az 3 ile 50 karakter arasında olmalıdır.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="date" class="form-label">Tarih</label>
+                <input
+                  type="datetime-local"
+                  id="date"
+                  class="form-control"
+                  formControlName="date"
+                />
+                <div
+                  *ngIf="
+                    activityReportAddForm.get('date').invalid &&
+                    activityReportAddForm.get('date').touched
+                  "
+                  class="text-danger"
+                >
+                  Tarih alanı zorunludur.
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                >
+                  Kapat
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  [disabled]="activityReportAddForm.invalid"
+                  (click)="addActivityReport()"
+                >
+                  Ekle
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Update Form -->
+    <div
+    class="modal fade"
+    id="activityReportUpdateModal"
+    tabindex="-1"
+    aria-labelledby="activityReportModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="activityReportModalLabel">
+            <i class="fas fa-edit"></i> Aktivite Güncelle
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="activityReportUpdateForm">
+            <div class="mb-3">
+              <label for="activityTypeId" class="form-label"
+                >Aktivite Türü</label
+              >
+              <select
+              id="activityType"
+              class="form-select"
+              formControlName="activityTypeId"
+            >
+            <option value="">Lütfen seçim yapınız</option>
+              <option *ngFor="let type of activityTypes" [value]="type.id">
+                {{ type.name }}
+              </option>
+            </select>
+              <div
+                *ngIf="
+                activityReportUpdateForm.get('activityTypeId').invalid &&
+                  activityReportUpdateForm.get('activityTypeId').touched
+                "
+                class="text-danger"
+              >
+                Aktivite alanı zorunludur.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Açıklama</label>
+              <textarea
+                id="description"
+                class="form-control"
+                rows="3"
+                formControlName="description"
+              ></textarea>
+              <div
+                *ngIf="
+                activityReportUpdateForm.get('description').invalid &&
+                  activityReportUpdateForm.get('description').touched
+                "
+                class="text-danger"
+              >
+                Açıklama alanı en az 3 ile 50 karakter arasında olmalıdır.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="date" class="form-label">Tarih</label>
+              <input
+                type="datetime-local"
+                id="date"
+                class="form-control"
+                formControlName="date"
+              />
+              <div
+                *ngIf="
+                  activityReportUpdateForm.get('date').invalid &&
+                  activityReportUpdateForm.get('date').touched
+                "
+                class="text-danger"
+              >
+                Tarih alanı zorunludur.
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              >
+                Kapat
+              </button>
+              <button
+              type="button"
+              class="btn btn-danger"
+              (click)="deleteActivityReport(activityReportUpdateForm.get('id').value)"
+            >
+              Sil
+            </button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="activityReportUpdateForm.invalid"
+                (click)="updateActivityReport()"
+              >
+                Güncelle
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>
+</app-blank>

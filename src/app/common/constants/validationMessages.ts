@@ -61,6 +61,18 @@ export class ValidationMessages {
         required:"Doğum yılı zorunludur."
       }
     };
-  
+
+    userEdit={
+      firstName: {
+        required: 'Ad alanı zorunludur.',
+        minlength: 'Ad en az 3 karakter olmalıdır.',
+        maxlength: 'Ad en fazla 50 karakter olabilir.',
+      },
+      lastName: {
+        required: 'Soyad alanı zorunludur.',
+        minlength: 'Soyad en az 3 karakter olmalıdır.',
+        maxlength: 'Soyad en fazla 50 karakter olabilir.',
+      }
+    }
 
   }

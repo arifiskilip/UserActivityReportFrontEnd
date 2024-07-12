@@ -20,7 +20,7 @@ export const appConfig: ApplicationConfig = {
       JwtModule.forRoot({
         config: {
             tokenGetter:()=> inject(LocalStorageService).getItem("token"),
-            allowedDomains:["localhost:7073"]
+            allowedDomains:["localhost:7090"]
         },
       })
     ),

@@ -44,7 +44,6 @@ export class AuthService {
     const token:string = this.localStorage.getItem('token');
     if (token) {
       const decodedToken: any = this.jwtHelper.decodeToken(token);
-      console.log(decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'])
       return decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];  // JWT içindeki role claim'i kontrol edin
 
     }
@@ -55,12 +54,8 @@ export class AuthService {
     return this.getUserRole() === 'Admin';
   }
 
-  isPatient(): boolean {
-    return this.getUserRole() === 'Patient';
-  }
-
-  isDoctor(): boolean {
-    return this.getUserRole() === 'Doctor';
+  isUser(): boolean {
+    return this.getUserRole() === 'User';
   }
 
   isUserVerified(): Observable<boolean>  {

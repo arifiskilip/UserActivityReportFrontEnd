@@ -8,45 +8,17 @@ export class MenuModel {
   
   export const UserMenus: MenuModel[] = [
     {
-      name: 'Ana Sayfa',
-      icon: 'fa-solid fa-home',
-      url: '/admin',
-      isTitle: false,
-      subMenus: [],
-    },
-    {
-      name: 'Doktorlar',
+      name: 'Profilim',
       icon: 'fa-solid fa-user',
-      url: '/admin/doctor',
+      url: '/user/profile',
       isTitle: false,
       subMenus: [],
     },
     {
-      name: 'Branşlar',
-      icon: 'fa-solid fa-heart',
-      url: '/admin/branch',
+      name: 'Aktivitelerim',
+      icon: 'fa-solid fa-home',
+      url: '/user',
       isTitle: false,
       subMenus: [],
-    },
-    {
-      name: 'Ünvanlar',
-      icon: 'fa-solid fa-clinic-medical',
-      url: '/admin/title',
-      isTitle: false,
-      subMenus: [],
-    },
-    {
-      name: 'Hastalar',
-      icon: 'fa-solid fa-bed',
-      url: '/admin/patient',
-      isTitle: false,
-      subMenus: [],
-    },
-    {
-      name: 'Geri Bildirimler',
-      icon: 'fa-regular fa-comment',
-      url: '/admin/feedback',
-      isTitle: false,
-      subMenus: [],
-    },
+    }
   ];
