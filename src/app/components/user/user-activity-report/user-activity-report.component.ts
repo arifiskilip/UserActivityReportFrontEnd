@@ -67,7 +67,7 @@ export class UserActivityReportComponent implements OnInit {
   dateFormatter(date: Date): string {
     return this.datePipe.transform(date, 'dd.MM.yyyy HH:mm') || '';
   }
-  dowloandPdf(){
+  dowloadPdf(){
     const headers = ['ID','Aktivite Türü',"Tarih","Olusturulma Tarihi","Güncelleme Tarihi"];
     const filteredData = this.activityReports.map(report=>({
       id:report.id,

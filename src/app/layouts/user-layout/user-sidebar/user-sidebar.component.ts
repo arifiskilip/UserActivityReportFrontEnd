@@ -7,6 +7,10 @@ import { MenuPipe } from '../../../pipes/menu.pipe';
 import { HttpService } from '../../../services/http.service';
 import { SwalService } from '../../../services/swal.service';
 import { UserMenus } from '../../../menu';
+import { UserService } from '../../../services/user.service';
+import { AuthService } from '../../../services/auth.service';
+import { UserModel } from '../../../models/userModel';
+import { ImageUrl } from '../../../common/constants/imageUrl';
 
 @Component({
   selector: 'app-user-sidebar',
@@ -15,88 +19,25 @@ import { UserMenus } from '../../../menu';
   templateUrl: './user-sidebar.component.html',
   styleUrl: './user-sidebar.component.scss'
 })
-export class UserSidebarComponent implements OnInit{
-
+export class UserSidebarComponent{
   search: string = "";
   menus = UserMenus;
-  patientPasswordUpdateForm: FormGroup;
-  validationMessages: ValidationMessages = new ValidationMessages();
 
 
-  constructor(
-    private http: HttpService,
-    private formBuilder: FormBuilder,
-    private swal: SwalService,
-  ) {}
-
-  ngOnInit(): void {
-    this.createPatientPasswordUpdateForm();
+  constructor(private userService:UserService, private authService:AuthService) {
+    this.getPatientDetail();
+    this.userService.user$.subscribe(user=>{
+      this.user = user;
+    })
   }
 
-  updatePassword(): void {
-    if (this.patientPasswordUpdateForm.valid) {
-      this.http
-        .put<any>('Auth/UpdatePassword', this.patientPasswordUpdateForm.value)
-        .subscribe((res) => {
-          this.swal.callToast(res.message);
-        });
-    }
+  user:UserModel;
+  constImageUrl:ImageUrl = new ImageUrl();
+  getPatientDetail(){
+    this.userService.getPatientDetail("User/GetById?Id="+this.authService.isAuthenticatedByUserId)
+    .subscribe(res=>{
+      this.user = res
+    })
   }
 
-  createPatientPasswordUpdateForm(): void {
-    this.patientPasswordUpdateForm = this.formBuilder.group(
-      {
-        oldPassword: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(6),
-            Validators.maxLength(50),
-          ],
-        ],
-        password: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(6),
-            Validators.maxLength(50),
-          ],
-        ],
-        confirmPassword: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(6),
-            Validators.maxLength(50),
-          ],
-        ],
-      },
-      {
-        validator: this.passwordMatchValidator,
-      }
-    );
-  }
-
-  passwordMatchValidator(formGroup: FormGroup): any {
-    const password = formGroup.get('password').value;
-    const confirmPassword = formGroup.get('confirmPassword').value;
-    if (password !== confirmPassword) {
-      formGroup.get('confirmPassword').setErrors({ match: true });
-    } else {
-      return null;
-    }
-  }
-
-
-
-    // Getters for patientPasswordUpdateForm
-    get password() {
-      return this.patientPasswordUpdateForm.get('password');
-    }
-    get confirmPassword() {
-      return this.patientPasswordUpdateForm.get('confirmPassword');
-    }
-    get oldPassword() {
-      return this.patientPasswordUpdateForm.get('oldPassword');
-    }
   }

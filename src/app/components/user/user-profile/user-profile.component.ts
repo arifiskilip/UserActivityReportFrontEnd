@@ -87,7 +87,7 @@ export class UserProfileComponent implements OnInit {
   update(): void {
     if (this.userEditForm.valid) {
       this.http
-        .put('Patient/UpdatePatient', this.userEditForm.value)
+        .put('User/Update', this.userEditForm.value)
         .subscribe(() => {
           this.swal.callToast('Güncelleme işlemi başarılı!');
           this.getUserDetail();
@@ -142,7 +142,7 @@ export class UserProfileComponent implements OnInit {
   updatePassword(): void {
     if (this.userPasswordUpdateForm.valid) {
       this.http
-        .put<any>('Auth/UpdatePassword', this.userPasswordUpdateForm.value)
+        .post<any>('Auth/UpdatePassword', this.userPasswordUpdateForm.value)
         .subscribe((res) => {
           this.swal.callToast(res.message);
         });
@@ -184,10 +184,10 @@ export class UserProfileComponent implements OnInit {
   saveImage(): void {
     if (this.userEditForm.valid) {
       const formData: FormData = new FormData();
-      const patientId = this.authService.isAuthenticatedByUserId.toString();
-      formData.append('patientId', patientId);
+      const userId = this.authService.isAuthenticatedByUserId.toString();
+      formData.append('userId', userId);
       formData.append('file', this.image);
-      this.http.post<any>('Patient/AddImage', formData).subscribe((res) => {
+      this.http.post<any>('User/AddImage', formData).subscribe((res) => {
         this.swal.callToast(res.message);
         this.getUserDetail();
       });

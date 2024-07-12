@@ -28,76 +28,53 @@
           <div class="card-body">
             <div class="container mt-4">
               <div class="row mb-3">
-                <div class="col-md-4">
-                  <label for="activityType" class="form-label"
-                    >Aktivite Türü:</label
-                  >
-                  <select
-                    id="activityType"
-                    class="form-select"
-                    [(ngModel)]="selectedActivityTypeId"
-                  >
-                  <option value="">Lütfen seçim yapınız</option>
+                <div class="col-md-4 mb-3 mb-md-0">
+                  <label for="activityType" class="form-label">Aktivite Türü:</label>
+                  <select id="activityType" class="form-select" [(ngModel)]="selectedActivityTypeId">
+                    <option value="">Lütfen seçim yapınız</option>
                     <option *ngFor="let type of activityTypes" [value]="type.id">
                       {{ type.name }}
                     </option>
                   </select>
                 </div>
-
-                <div class="col-md-2">
+            
+                <div class="col-md-2 mb-3 mb-md-0">
                   <label for="startDate" class="form-label">Başlangıç Tarihi:</label>
-                  <input
-                    type="date"
-                    id="startDate"
-                    class="form-control"
-                    [(ngModel)]="startDate"
-                  />
+                  <input type="date" id="startDate" class="form-control" [(ngModel)]="startDate" />
                 </div>
-
-                <div class="col-md-2">
+            
+                <div class="col-md-2 mb-3 mb-md-0">
                   <label for="endDate" class="form-label">Bitiş Tarihi:</label>
-                  <input
-                    type="date"
-                    id="endDate"
-                    class="form-control"
-                    [(ngModel)]="endDate"
-                  />
+                  <input type="date" id="endDate" class="form-control" [(ngModel)]="endDate" />
                 </div>
-
-                <div class="col-md-2 d-flex align-items-end">
-                  <button
-                    class="btn btn-primary w-100"
-                    (click)="filterEvents()"
-                  >
-                    <i class="fa fa-filter"></i> Filtrele
+            
+                <div class="col-md-2 mb-3 mb-md-0 d-flex align-items-end">
+                  <button class="btn btn-primary w-100" (click)="filterEvents()">
+                    <i class="fa fa-filter me-2"></i>Filtrele
                   </button>
                 </div>
-                <div class="col-md-2 d-flex align-items-end">
-                  <button
-                    class="btn btn-danger w-100"
-                    (click)="clearFilter()"
-                  >
-                    <i class="fa fa-times"></i> Temizle
-                  </button>
-                </div>
-                <div class="col-md-2 d-flex align-items-end">
-                  <button
-                    class="btn btn-success w-100"
-                    (click)="dowloandPdf()"
-                  >
-                    <i class="fa fa-times"></i> PDF
+                <div class="col-md-2 mb-3 mb-md-0 d-flex align-items-end">
+                  <button class="btn btn-danger w-100" (click)="clearFilter()">
+                    <i class="fa fa-times me-2"></i>Temizle
                   </button>
                 </div>
               </div>
             </div>
+            
             <full-calendar [options]="calendarOptions"></full-calendar>
-            <button
-              class="btn btn-primary mt-3"
-              data-toggle="modal"
-              data-target="#activityReportModal"
-            >
-              Ekle
-            </button>
+            <div class="container row">
+              <div class="col-md-2 mb-3 mb-md-0 d-flex align-items-end">
+                <button class="btn btn-success w-100" data-toggle="modal"
+                data-target="#activityReportModal">
+                  <i class="fa fa-file-pdf-o me-2"></i>Ekle
+                </button>
+              </div>
+              <div class="col-md-2 mb-3 mb-md-0 d-flex align-items-end">
+                <button class="btn btn-warning w-100" (click)="dowloadPdf()">
+                  <i class="fa fa-file-pdf-o me-2"></i>PDF
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

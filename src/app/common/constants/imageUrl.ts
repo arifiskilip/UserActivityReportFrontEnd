@@ -12,6 +12,6 @@ export class ImageUrl{
    }
 
    getImage(imageUrl:string):string{
-    return api+imageUrl
+    return 'https://localhost:7090/'+imageUrl
    }
 }

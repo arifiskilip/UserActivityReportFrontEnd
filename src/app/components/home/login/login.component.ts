@@ -99,7 +99,7 @@ export class LoginComponent implements OnInit {
   }
 
   sendVerificationCode() {
-    this.http.post("Auth/PasswordResetSendEmail",this.forgotPassworForm.value)
+    this.http.get("Auth/PasswordResetSendEmail?Email="+this.forgotPassworForm.get('email').value)
     .subscribe(res=>{
       this.verificationCodePage = true;
       this.swal.callToast("Lütfen e-mail adresinize gelen doğrulama kodunu giriniz.");
