@@ -11,7 +11,7 @@ export class PdfExportService {
 
   exportToPdf(data: any[], headers: string[], fileName: string) {
     const doc = new jsPDF();
-    doc.setFontSize(16);
+    //doc.setFontSize(16);
     const tableData = data.map(obj => Object.values(obj));
     autoTable(doc,{
       head:[headers],
